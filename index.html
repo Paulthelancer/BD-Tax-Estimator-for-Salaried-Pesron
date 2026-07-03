@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BD Tax Estimator — Bangladesh Income Tax Calculator 2025-2026</title>
+<style>
+/* ═══════════════════════════════════════════════
+   DESIGN SYSTEM — Inspired by UI UX Pro Max
+   Style: Glass Morphism + Depth Layering
+   Palette: Forest Green (#006A4E) + Warm Gold
+   ═══════════════════════════════════════════════ */
+:root {
+  --p: #006A4E; --p2: #004D38; --p3: #00332A;
+  --accent: #F42A41; --gold: #E8A838; --gold2: #D4941E;
+  --sky: #4FC3F7; --mint: #66BB6A;
+  --bg: #0A1628; --bg2: #0E1F3D; --bg3: #132B50;
+  --surface: rgba(255,255,255,0.04);
+  --glass: rgba(255,255,255,0.06);
+  --glass2: rgba(255,255,255,0.10);
+  --glass3: rgba(255,255,255,0.15);
+  --text: #E8EDF5; --text2: #9EAFC2; --text3: #6B7F96;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.14);
+  --glow: rgba(0,106,78,0.3);
+  --radius: 16px; --radius2: 12px; --radius3: 8px;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Ambient background orbs */
+body::before, body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: 0;
+  pointer-events: none;
+}
+body::before {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(0,106,78,0.15), transparent 70%);
+  top: -200px; right: -200px;
+}
+body::after {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(232,168,56,0.08), transparent 70%);
+  bottom: -150px; left: -150px;
+}
+
+/* ── HEADER ── */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background:
+    linear-gradient(180deg, rgba(10,22,40,0.96), rgba(10,22,40,0.84)),
+    radial-gradient(circle at 50% 0%, rgba(0,106,78,0.16), transparent 60%);
+  backdrop-filter: blur(24px) saturate(1.35);
+  -webkit-backdrop-filter: blur(24px) saturate(1.35);
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 10px 32px rgba(0,0,0,0.18);
+  padding: 16px 20px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.logo {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.logo-main {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  white-space: nowrap;
+}
+.logo-flag {
+  width: 58px; height: 34.8px; /* official 10:6 proportion */
+  background: #006A4E;
+  border-radius: 4px;
+  position: relative;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.20);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.24), 0 0 0 1px rgba(0,106,78,0.16);
+}
+.logo-flag::after {
+  content: ''; position: absolute;
+  width: 23.2px; height: 23.2px;
+  background: #F42A41;
+  border-radius: 50%;
+  top: 5.8px; left: 14.5px;
+}
+.logo h1 {
+  font-size: clamp(1.42rem, 2.45vw, 1.95rem);
+  font-weight: 850;
+  color: #FFFFFF;
+  letter-spacing: -0.4px;
+  line-height: 1.08;
+  white-space: nowrap;
+}
+.logo h1 .title-accent { color: var(--gold); }
+.logo-sub {
+  font-size: clamp(0.58rem, 1.05vw, 0.76rem);
+  color: #8394AA;
+  letter-spacing: clamp(1.0px, 0.28vw, 2.0px);
+  text-transform: uppercase;
+  font-weight: 750;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.logo-copy {
+  font-size: clamp(0.53rem, 0.95vw, 0.66rem);
+  color: #7F8FA5;
+  letter-spacing: clamp(1.1px, 0.25vw, 2px);
+  text-transform: uppercase;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .header { padding: 13px 10px 12px; }
+  .logo { gap: 6px; }
+  .logo-main { gap: 9px; }
+  .logo-flag { width: 44px; height: 26.4px; border-radius: 3px; }
+  .logo-flag::after { width: 17.6px; height: 17.6px; top: 4.4px; left: 11px; }
+  .logo h1 { font-size: clamp(1.08rem, 5.1vw, 1.35rem); letter-spacing: -0.25px; }
+  .logo-sub { font-size: clamp(0.48rem, 2.45vw, 0.62rem); letter-spacing: 0.7px; }
+  .logo-copy { font-size: clamp(0.46rem, 2.15vw, 0.56rem); letter-spacing: 0.75px; }
+}
+
+/* ── LAYOUT ── */
+.container { max-width: 1320px; margin: 0 auto; padding: 28px 20px 100px; position: relative; z-index: 1; }
+.grid { display: grid; grid-template-columns: 460px 1fr; gap: 28px; align-items: start; }
+@media (max-width:1024px) { .grid { grid-template-columns: 1fr; } }
+
+/* ── FY TABS ── */
+.fy-tabs {
+  display: flex; gap: 4px;
+  background: var(--glass);
+  border-radius: 14px;
+  padding: 4px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+}
+.fy-tab {
+  flex: 1; padding: 12px 10px;
+  text-align: center; border: none;
+  background: transparent; color: var(--text2);
+  font-weight: 700; font-size: 0.82rem;
+  border-radius: 11px; cursor: pointer;
+  transition: all 0.35s var(--ease);
+  font-family: inherit;
+}
+.fy-tab small { display: block; font-weight: 400; font-size: 0.7rem; margin-top: 2px; opacity: 0.7; }
+.fy-tab.active {
+  background: linear-gradient(135deg, var(--p), var(--p2));
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(0,106,78,0.35);
+}
+.fy-tab:hover:not(.active) { background: var(--glass2); color: var(--text); }
+
+/* ── GLASS CARD ── */
+.card {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.card:hover { border-color: var(--border2); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+.card-head {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px; padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.card-icon {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.card-icon.green { background: rgba(0,106,78,0.2); }
+.card-icon.gold { background: rgba(232,168,56,0.2); }
+.card-icon.blue { background: rgba(79,195,247,0.2); }
+.card-icon.red { background: rgba(244,42,65,0.2); }
+.card-head h2 { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+
+/* ── FORM ── */
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block; font-size: 0.72rem; font-weight: 600;
+  color: var(--text2); margin-bottom: 5px;
+  text-transform: uppercase; letter-spacing: 0.6px;
+}
+.form-group input, .form-group select {
+  width: 100%; padding: 10px 14px;
+  background: var(--glass2); border: 1px solid var(--border);
+  border-radius: var(--radius3); color: var(--text);
+  font-size: 0.9rem; font-family: inherit;
+  transition: all 0.25s var(--ease);
+}
+.form-group input::placeholder { color: var(--text3); }
+.form-group input:focus, .form-group select:focus {
+  outline: none; border-color: var(--p);
+  background: var(--glass3);
+  box-shadow: 0 0 0 3px rgba(0,106,78,0.15), 0 0 20px rgba(0,106,78,0.08);
+}
+.form-group select option { background: var(--bg2); color: var(--text); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* Pill radios */
+.pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.pill { flex: 1; min-width: 72px; }
+.pill input { display: none; }
+.pill label {
+  display: block; padding: 8px 6px; text-align: center;
+  border: 1px solid var(--border); border-radius: var(--radius3);
+  font-size: 0.75rem; font-weight: 600; color: var(--text2);
+  cursor: pointer; transition: all 0.25s var(--ease);
+  text-transform: none; letter-spacing: 0;
+}
+.pill input:checked + label {
+  border-color: var(--p); background: rgba(0,106,78,0.2);
+  color: #4AE68A; box-shadow: 0 0 12px rgba(0,106,78,0.15);
+}
+.pill label:hover { border-color: var(--border2); background: var(--glass2); }
+
+/* Info banner */
+.info-strip {
+  display: flex; align-items: flex-start; gap: 8px;
+  background: rgba(232,168,56,0.08);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 var(--radius3) var(--radius3) 0;
+  padding: 10px 12px; margin-bottom: 16px;
+  font-size: 0.78rem; color: var(--gold);
+}
+.info-strip strong { color: var(--gold2); }
+
+/* Big button */
+.btn-go {
+  width: 100%; padding: 16px; border: none;
+  background: linear-gradient(135deg, var(--p), var(--p2));
+  color: #fff; font-size: 1rem; font-weight: 800;
+  border-radius: var(--radius2); cursor: pointer;
+  font-family: inherit; letter-spacing: 0.2px;
+  transition: all 0.3s var(--ease);
+  box-shadow: 0 4px 24px rgba(0,106,78,0.3);
+  position: relative; overflow: hidden;
+}
+.btn-go::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.1));
+  transition: opacity 0.3s;
+}
+.btn-go:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,106,78,0.45);
+}
+.btn-go:active { transform: translateY(0); }
+
+/* ── RESULTS ── */
+#resultsPanel { display: none; }
+#resultsPanel.show { display: block; animation: slideUp 0.5s var(--ease); }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero result */
+.result-hero {
+  background: linear-gradient(135deg, var(--p), var(--p2), var(--p3));
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  text-align: center;
+  position: relative; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 24px;
+}
+.result-hero::before {
+  content: ''; position: absolute;
+  top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
+}
+.result-hero .fy-label {
+  font-size: 0.72rem; text-transform: uppercase;
+  letter-spacing: 2px; color: rgba(255,255,255,0.5);
+  font-weight: 700; position: relative;
+}
+.result-hero .big-amount {
+  font-size: 2.8rem; font-weight: 900;
+  margin: 8px 0 4px;
+  background: linear-gradient(135deg, #fff, var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; position: relative;
+}
+.result-hero .big-label {
+  font-size: 0.85rem; color: rgba(255,255,255,0.65);
+  position: relative;
+}
+.eff-badge {
+  display: inline-block; margin-top: 10px;
+  padding: 5px 16px; border-radius: 20px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  font-size: 0.8rem; font-weight: 700;
+  color: rgba(255,255,255,0.8);
+  position: relative;
+}
+
+/* KPI row */
+.kpi-row {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 12px; margin-bottom: 24px;
+}
+@media (max-width:600px) { .kpi-row { grid-template-columns: repeat(2,1fr); } }
+.kpi {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius2);
+  padding: 16px 14px;
+  text-align: center;
+  transition: border-color 0.3s, transform 0.2s;
+}
+.kpi:hover { border-color: var(--border2); transform: translateY(-2px); }
+.kpi-val {
+  font-size: 1.3rem; font-weight: 800;
+  margin-bottom: 2px;
+}
+.kpi-val.green { color: #4AE68A; }
+.kpi-val.gold { color: var(--gold); }
+.kpi-val.blue { color: var(--sky); }
+.kpi-val.red { color: #FF6B7A; }
+.kpi-label {
+  font-size: 0.65rem; text-transform: uppercase;
+  color: var(--text3); font-weight: 700; letter-spacing: 0.7px;
+}
+
+/* Charts container */
+.charts-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 16px; margin-bottom: 24px;
+}
+@media (max-width:700px) { .charts-row { grid-template-columns: 1fr; } }
+
+.chart-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: border-color 0.3s;
+}
+.chart-card:hover { border-color: var(--border2); }
+.chart-title {
+  font-size: 0.75rem; text-transform: uppercase;
+  color: var(--text3); font-weight: 700;
+  letter-spacing: 0.8px; margin-bottom: 14px;
+}
+
+/* SVG Charts */
+.donut-center-text { font-size: 12px; fill: var(--text2); font-weight: 700; }
+.donut-center-val { font-size: 18px; fill: #fff; font-weight: 900; }
+.chart-legend { margin-top: 14px; }
+.legend-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 4px 0; font-size: 0.78rem; color: var(--text2);
+}
+.legend-dot {
+  width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0;
+}
+.legend-val { margin-left: auto; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+
+/* Bar chart */
+.bar-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 8px;
+}
+.bar-label {
+  font-size: 0.72rem; color: var(--text2);
+  width: 70px; text-align: right; flex-shrink: 0;
+  font-weight: 600;
+}
+.bar-track {
+  flex: 1; height: 22px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 6px; overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  height: 100%; border-radius: 6px;
+  transition: width 0.8s var(--ease);
+  position: relative;
+}
+.bar-fill::after {
+  content: attr(data-val);
+  position: absolute; right: 8px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.68rem; font-weight: 700; color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Breakdown table */
+.tbl {
+  width: 100%; border-collapse: collapse; font-size: 0.82rem;
+}
+.tbl th {
+  text-align: left; padding: 8px 10px;
+  font-size: 0.68rem; text-transform: uppercase;
+  letter-spacing: 0.7px; color: var(--text3);
+  font-weight: 700; border-bottom: 1px solid var(--border);
+}
+.tbl th:last-child { text-align: right; }
+.tbl td {
+  padding: 9px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  color: var(--text2);
+}
+.tbl td:last-child { text-align: right; font-variant-numeric: tabular-nums; color: var(--text); font-weight: 600; }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl .row-total {
+  background: rgba(0,106,78,0.1);
+  font-weight: 700;
+}
+.tbl .row-total td { color: #4AE68A; border-top: 1px solid rgba(0,106,78,0.3); }
+.tbl .row-highlight { background: rgba(232,168,56,0.06); }
+.tbl .row-sep td {
+  padding: 1px; border: none;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  height: 1px;
+}
+
+/* Tip/Compare */
+.tip-card {
+  background: rgba(79,195,247,0.06);
+  border: 1px solid rgba(79,195,247,0.15);
+  border-radius: var(--radius2);
+  padding: 14px 16px; font-size: 0.82rem;
+  color: var(--sky); margin-top: 14px;
+}
+.tip-card strong { color: #81D4FA; }
+
+.save-card {
+  background: rgba(102,187,106,0.08);
+  border: 1px solid rgba(102,187,106,0.2);
+  border-radius: var(--radius2);
+  padding: 14px 16px; font-size: 0.82rem;
+  color: #81C784;
+}
+
+.compare-strip {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius2);
+  padding: 14px 16px; margin-bottom: 20px;
+}
+.compare-badge {
+  padding: 4px 12px; border-radius: 6px;
+  font-size: 0.72rem; font-weight: 800;
+  white-space: nowrap; text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.compare-text { font-size: 0.82rem; color: var(--text2); }
+.compare-text strong { color: var(--text); }
+
+/* Monthly pills */
+.monthly-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+.monthly-pill {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius2);
+  padding: 18px; text-align: center;
+}
+.monthly-pill .mp-val {
+  font-size: 1.4rem; font-weight: 800;
+}
+.monthly-pill .mp-lbl {
+  font-size: 0.68rem; color: var(--text3);
+  text-transform: uppercase; font-weight: 700;
+  letter-spacing: 0.7px; margin-top: 4px;
+}
+
+/* Footer */
+.footer {
+  text-align: center; padding: 32px 20px;
+  font-size: 0.72rem; color: var(--text3);
+  border-top: 1px solid var(--border);
+  margin-top: 48px; position: relative; z-index: 1;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--glass3); border-radius: 4px; }
+
+/* Animations */
+@keyframes fadeScale { from { opacity:0; transform:scale(0.96); } to { opacity:1; transform:scale(1); } }
+.anim-in { animation: fadeScale 0.45s var(--ease) both; }
+.anim-d1 { animation-delay: 0.08s; }
+.anim-d2 { animation-delay: 0.16s; }
+.anim-d3 { animation-delay: 0.24s; }
+.anim-d4 { animation-delay: 0.32s; }
+.anim-d5 { animation-delay: 0.4s; }
+
+/* Hidden helper */
+.hidden { display: none !important; }
+
+/* Download btn */
+.btn-pdf {
+  width:100%; padding:14px; border:1px solid rgba(232,168,56,0.28); margin-top:16px;
+  background: linear-gradient(135deg, #006A4E 0%, #08785C 58%, #D4941E 135%);
+  color:#fff; font-size:0.92rem; font-weight:850;
+  border-radius: var(--radius2); cursor:pointer;
+  font-family:inherit; letter-spacing:0.25px;
+  transition:all 0.3s var(--ease);
+  box-shadow:0 5px 22px rgba(0,106,78,0.34);
+}
+.btn-pdf:hover { transform:translateY(-2px); box-shadow:0 9px 30px rgba(0,106,78,0.46); filter:saturate(1.06); }
+.btn-pdf:active { transform:translateY(0); }
+
+/* ═══════════════════════════════════════════
+   A4 PRINT SUMMARY — hidden on screen
+   ═══════════════════════════════════════════ */
+#printSummary { display:none; }
+
+@media print {
+  /* Hide everything except the summary */
+  body > *:not(#printSummary) { display:none !important; }
+  #printSummary { display:block !important; }
+
+  body {
+    background:#fff !important; color:#1a1a2e !important;
+    margin:0; padding:0; font-size:9.5pt;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  body::before, body::after { display:none !important; }
+
+  @page { size:A4; margin:14mm 16mm 12mm 16mm; }
+}
+
+/* Print-only styles (embedded in the element for screen preview too) */
+#printSummary {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #1a1a2e;
+  line-height: 1.45;
+  max-width: 210mm;
+}
+/* ── PS: header ── */
+.ps-header {
+  position:relative;
+  display:flex; align-items:center; justify-content:center;
+  border-bottom:3px solid #006A4E; padding-bottom:10px; margin-bottom:12px;
+  min-height:58px;
+}
+.ps-brand { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:3px; }
+.ps-flag {
+  width:34px; height:20.4px; background:#006A4E; border-radius:1.5px;
+  position:relative; display:inline-block;
+}
+.ps-flag::after {
+  content:''; position:absolute;
+  width:13.6px; height:13.6px; background:#F42A41;
+  border-radius:50%; top:3.4px; left:8.5px;
+}
+.ps-brand-text { font-size:12pt; font-weight:700; color:#006A4E; line-height:1.15; }
+.ps-brand-sub { font-size:7pt; color:#666; text-transform:uppercase; letter-spacing:0.7px; line-height:1.15; }
+.ps-brand-copy { font-size:6pt; color:#D4941E; text-transform:uppercase; letter-spacing:0.8px; font-weight:700; line-height:1.15; }
+.ps-date { position:absolute; right:0; top:4px; font-size:7.2pt; color:#888; text-align:right; }
+
+/* ── PS: hero strip ── */
+.ps-hero {
+  display:flex; gap:0; margin-bottom:10px; border-radius:8px; overflow:hidden;
+}
+.ps-hero-main {
+  flex:2; background:#006A4E; color:#fff; padding:14px 18px; text-align:center;
+}
+.ps-hero-main .ps-fy { font-size:7pt; text-transform:uppercase; letter-spacing:1.5px; opacity:0.7; }
+.ps-hero-main .ps-big { font-size:22pt; font-weight:900; margin:2px 0; }
+.ps-hero-main .ps-lbl { font-size:8pt; opacity:0.7; }
+.ps-hero-side {
+  flex:3; display:grid; grid-template-columns:1fr 1fr 1fr 1fr;
+}
+.ps-kpi {
+  padding:10px 8px; text-align:center;
+  border-left:1px solid #e8e8e8; background:#f8faf9;
+}
+.ps-kpi:first-child { border-left:none; }
+.ps-kpi .ps-kv { font-size:11pt; font-weight:800; }
+.ps-kpi .ps-kv.c1 { color:#006A4E; }
+.ps-kpi .ps-kv.c2 { color:#0d47a1; }
+.ps-kpi .ps-kv.c3 { color:#e65100; }
+.ps-kpi .ps-kv.c4 { color:#c62828; }
+.ps-kpi .ps-kl { font-size:6pt; color:#888; text-transform:uppercase; font-weight:700; letter-spacing:0.5px; margin-top:1px; }
+
+/* ── PS: profile strip ── */
+.ps-profile {
+  display:flex; gap:12px; margin-bottom:10px;
+  background:#f4f6f5; border:1px solid #e0e4e2;
+  border-radius:6px; padding:8px 12px;
+  font-size:8pt; color:#444;
+}
+.ps-profile span { display:inline-flex; align-items:center; gap:4px; }
+.ps-tag {
+  display:inline-block; padding:2px 8px;
+  background:#006A4E; color:#fff; border-radius:4px;
+  font-size:7pt; font-weight:700;
+}
+
+/* ── PS: two-col layout ── */
+.ps-cols { display:flex; gap:12px; margin-bottom:10px; }
+.ps-col-left { flex:1; }
+.ps-col-right { width:200px; }
+
+/* ── PS: section ── */
+.ps-section {
+  border:1px solid #e0e4e2; border-radius:6px;
+  overflow:hidden; margin-bottom:10px;
+}
+.ps-sec-head {
+  display:flex; align-items:center; gap:6px;
+  padding:6px 10px; font-size:8pt; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.5px;
+  color:#fff;
+}
+.ps-sec-head.green { background:#006A4E; }
+.ps-sec-head.blue { background:#0d47a1; }
+.ps-sec-head.gold { background:#e65100; }
+.ps-sec-head.teal { background:#00695c; }
+
+/* ── PS: table ── */
+.ps-tbl {
+  width:100%; border-collapse:collapse; font-size:8pt;
+}
+.ps-tbl td {
+  padding:3.5px 10px; border-bottom:1px solid #f0f0f0;
+}
+.ps-tbl td:last-child { text-align:right; font-weight:600; font-variant-numeric:tabular-nums; }
+.ps-tbl tr:last-child td { border-bottom:none; }
+.ps-tbl .ps-tr-total {
+  background:#e8f5e9; font-weight:800;
+}
+.ps-tbl .ps-tr-total td { border-top:2px solid #006A4E; color:#006A4E; }
+.ps-tbl .ps-tr-hl { background:#fff8e1; }
+.ps-tbl .ps-tr-sep td { padding:0; border:none; height:1px; background:#e8e8e8; }
+
+/* ── PS: charts in print ── */
+.ps-charts {
+  display:flex; gap:10px; margin-bottom:10px;
+}
+.ps-chart-box {
+  flex:1; border:1px solid #e0e4e2; border-radius:6px;
+  padding:8px; text-align:center;
+}
+.ps-chart-title {
+  font-size:7pt; text-transform:uppercase; color:#888;
+  font-weight:700; letter-spacing:0.5px; margin-bottom:4px;
+}
+.ps-chart-legend-h {
+  display:flex; flex-wrap:wrap; gap:6px 12px;
+  justify-content:center; margin-top:4px;
+}
+.ps-leg {
+  display:inline-flex; align-items:center; gap:3px;
+  font-size:6.5pt; color:#555;
+}
+.ps-leg-dot {
+  width:7px; height:7px; border-radius:2px; display:inline-block;
+}
+
+/* ── PS: footer ── */
+.ps-footer {
+  text-align:center; font-size:6.5pt; color:#aaa;
+  border-top:1px solid #e0e4e2; padding-top:6px;
+  margin-top:6px;
+}
+
+/* Detailed slab rows */
+.tbl td:nth-child(2), .tbl td:nth-child(3) { font-variant-numeric: tabular-nums; }
+@media (max-width:700px){
+  .tbl { font-size:0.74rem; }
+  .tbl th, .tbl td { padding:7px 6px; }
+}
+
+
+
+/* ═══════════════════════════════════════════
+   SUPPORT / bKASH PANEL — elegant, non-intrusive
+   ═══════════════════════════════════════════ */
+.support-wrap {
+  max-width: 1320px;
+  margin: -58px auto 26px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+.support-card {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 14px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.065), rgba(255,255,255,0.025));
+  border: 1px solid rgba(255,255,255,0.09);
+  box-shadow: 0 18px 44px rgba(0,0,0,0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.coffee-support-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 13px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(232,168,56,0.34);
+  background: linear-gradient(135deg, rgba(0,106,78,0.98), rgba(4,92,70,0.98) 62%, rgba(212,148,30,0.95) 135%);
+  color: #fff;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease), filter .25s var(--ease);
+  box-shadow: 0 10px 26px rgba(0,106,78,0.25);
+}
+.coffee-support-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 34px rgba(0,106,78,0.38); filter: saturate(1.06); }
+.coffee-support-btn:active { transform: translateY(0); }
+.coffee-mark {
+  width: 36px; height: 36px;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.14);
+  font-size: 1.1rem;
+}
+.coffee-text { display:flex; flex-direction:column; text-align:left; line-height:1.15; }
+.coffee-text b { font-size: .96rem; letter-spacing:.2px; }
+.coffee-text small { font-size:.65rem; opacity:.72; text-transform:uppercase; letter-spacing:.75px; margin-top:3px; }
+.bkash-panel {
+  margin-top: 12px;
+  padding: 13px;
+  border-radius: 14px;
+  background: rgba(10,22,40,0.92);
+  border: 1px solid rgba(232,168,56,0.18);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.025);
+  animation: fadeScale .28s var(--ease) both;
+}
+.bkash-row { display:flex; align-items:center; gap:12px; }
+.bkash-logo-box {
+  width: 52px; height: 48px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.94);
+  display:flex; align-items:center; justify-content:center;
+  padding: 5px;
+  flex-shrink:0;
+}
+.bkash-logo-box img { max-width:100%; max-height:100%; object-fit:contain; display:block; }
+.bkash-copy { flex:1; min-width:0; }
+.bkash-copy .bkash-title { font-size:.75rem; color:var(--text3); text-transform:uppercase; letter-spacing:.8px; font-weight:800; }
+.bkash-number { font-size:1.12rem; color:#fff; font-weight:850; letter-spacing:.4px; margin-top:2px; }
+.bkash-note { font-size:.68rem; color:var(--text3); margin-top:2px; }
+.copy-bkash-btn {
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(232,168,56,0.24);
+  background: rgba(232,168,56,0.12);
+  color: var(--gold);
+  font-family: inherit;
+  font-size: .74rem;
+  font-weight: 800;
+  cursor:pointer;
+  white-space:nowrap;
+  transition: all .22s var(--ease);
+}
+.copy-bkash-btn:hover { background: rgba(232,168,56,0.20); transform: translateY(-1px); }
+.support-toast {
+  margin-top: 9px;
+  font-size: .68rem;
+  color: #4AE68A;
+  text-align:center;
+  display:none;
+}
+.support-toast.show { display:block; }
+@media (max-width:620px) {
+  .support-wrap { margin-top:-46px; padding:0 14px; }
+  .coffee-text { text-align:center; }
+  .bkash-row { align-items:flex-start; }
+  .copy-bkash-btn { padding:8px 10px; }
+}
+
+/* Refined PDF button */
+.btn-pdf {
+  border: 1px solid rgba(232,168,56,0.36) !important;
+  background: linear-gradient(135deg, #006A4E 0%, #075F4D 58%, #D4941E 130%) !important;
+  box-shadow: 0 8px 28px rgba(0,106,78,0.32), inset 0 1px 0 rgba(255,255,255,0.08) !important;
+}
+
+/* ═══════════════════════════════════════════
+   PROFESSIONAL PDF REPORT OVERRIDES
+   ═══════════════════════════════════════════ */
+@media print {
+  @page { size:A4; margin: 11mm 12mm 10mm 12mm; }
+  #printSummary { max-width: none; }
+}
+#printSummary {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #182230;
+  line-height: 1.38;
+}
+.ps-header {
+  min-height: 72px;
+  padding: 10px 14px 11px;
+  margin-bottom: 10px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #004D38 0%, #006A4E 55%, #0A7C61 100%);
+  box-shadow: 0 8px 22px rgba(0,106,78,0.18);
+  color: #fff;
+}
+.ps-header::after {
+  content:'';
+  position:absolute;
+  left:12px; right:12px; bottom:-4px;
+  height:4px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #E8A838, rgba(232,168,56,0.08));
+}
+.ps-brand { gap: 4px; }
+.ps-flag { border:1px solid rgba(255,255,255,.28); box-shadow:0 3px 10px rgba(0,0,0,.12); }
+.ps-brand-kicker {
+  font-size: 5.8pt;
+  color: rgba(255,255,255,.68);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-weight: 800;
+  line-height:1;
+}
+.ps-brand-text { font-size: 13pt; font-weight: 850; color: #fff; line-height:1.05; }
+.ps-brand-sub { color: rgba(255,255,255,.78); font-size: 6.8pt; }
+.ps-brand-copy { color: #FFD782; font-size: 5.9pt; }
+.ps-date { color: rgba(255,255,255,.82); top: 10px; right:14px; font-size: 7pt; }
+.ps-hero {
+  border-radius: 11px;
+  border:1px solid #e4eee9;
+  box-shadow: 0 4px 14px rgba(17,24,39,0.06);
+}
+.ps-hero-main {
+  background: linear-gradient(135deg, #006A4E, #004D38);
+  padding: 13px 16px;
+}
+.ps-hero-main .ps-big { font-size: 24pt; letter-spacing: -0.3px; }
+.ps-hero-side { background:#fff; }
+.ps-kpi {
+  background: #F7FAF8;
+  border-left: 1px solid #E6ECE9;
+}
+.ps-kpi .ps-kv { font-size: 11.5pt; }
+.ps-profile {
+  border-color:#DEEAE4;
+  background: linear-gradient(135deg,#F7FAF8,#FFFFFF);
+  border-left: 4px solid #006A4E;
+  border-radius: 8px;
+  padding: 7px 10px;
+}
+.ps-charts { gap: 8px; margin-bottom: 8px; }
+.ps-chart-box {
+  border-color:#DEEAE4;
+  background:#fff;
+  border-radius: 9px;
+  padding:7px;
+  box-shadow: 0 2px 10px rgba(17,24,39,0.035);
+}
+.ps-chart-title { color:#006A4E; font-weight:850; font-size:6.8pt; }
+.ps-section {
+  border-color:#DEEAE4;
+  border-radius: 9px;
+  background:#fff;
+  box-shadow: 0 2px 10px rgba(17,24,39,0.035);
+}
+.ps-sec-head {
+  padding: 6px 10px;
+  font-size: 7.4pt;
+  letter-spacing: .65px;
+}
+.ps-sec-head.green { background: linear-gradient(135deg,#006A4E,#00513D); }
+.ps-sec-head.blue { background: linear-gradient(135deg,#0D47A1,#1565C0); }
+.ps-sec-head.gold { background: linear-gradient(135deg,#D4941E,#E8A838); }
+.ps-sec-head.teal { background: linear-gradient(135deg,#00695C,#00897B); }
+.ps-tbl { font-size: 7.7pt; }
+.ps-tbl td { padding: 3.6px 9px; border-bottom:1px solid #EEF2F0; }
+.ps-tbl .ps-tr-total { background: #EAF7F0; }
+.ps-tbl .ps-tr-total td { color:#006A4E; border-top:1.6px solid #006A4E; }
+.ps-tbl .ps-tr-hl { background:#FFF8E6; }
+.ps-footer {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border: 1px solid #E6ECE9;
+  border-radius: 8px;
+  background: #F8FAF9;
+  color:#6B7280;
+  font-size: 6.2pt;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="header" role="banner" aria-label="BD Tax Estimator">
+  <div class="logo">
+    <div class="logo-main">
+      <div class="logo-flag" aria-hidden="true"></div>
+      <h1>BD Tax <span class="title-accent">Estimator</span></h1>
+    </div>
+    <div class="logo-sub">Bangladesh Income Tax Calculator · FY 2024-25 &amp; 2025-26</div>
+    <div class="logo-copy">COPYRIGHT @ UDOY PAUL</div>
+  </div>
+</header>
+
+<!-- ═══ MAIN ═══ -->
+<div class="container">
+
+  <!-- FY Tabs -->
+  <div class="fy-tabs">
+    <button class="fy-tab active" onclick="pickFY('current')" id="tabCur">
+      FY 2024-25 <small>Assessment Year 2025-26</small>
+    </button>
+    <button class="fy-tab" onclick="pickFY('next')" id="tabNext">
+      FY 2025-26 <small>Assessment Year 2026-27</small>
+    </button>
+  </div>
+
+  <div class="grid">
+
+    <!-- ═══ LEFT: INPUTS ═══ -->
+    <div class="input-col">
+
+      <!-- Personal -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon green">👤</div>
+          <h2>Taxpayer Profile</h2>
+        </div>
+
+        <div class="form-group">
+          <label>Gender</label>
+          <div class="pills">
+            <div class="pill"><input type="radio" name="gender" id="gM" value="male" checked><label for="gM">👨 Male</label></div>
+            <div class="pill"><input type="radio" name="gender" id="gF" value="female"><label for="gF">👩 Female</label></div>
+            <div class="pill"><input type="radio" name="gender" id="gT" value="third_gender"><label for="gT">⚧ Third Gender</label></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Special Category</label>
+          <div class="pills">
+            <div class="pill"><input type="radio" name="quota" id="qN" value="none" checked><label for="qN">None</label></div>
+            <div class="pill"><input type="radio" name="quota" id="qS" value="senior"><label for="qS">65+ Senior</label></div>
+            <div class="pill"><input type="radio" name="quota" id="qD" value="disabled"><label for="qD">Disabled</label></div>
+            <div class="pill"><input type="radio" name="quota" id="qF" value="freedom_fighter"><label for="qF">Freedom Fighter</label></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Employment Type</label>
+          <div class="pills">
+            <div class="pill"><input type="radio" name="empType" id="empPriv" value="private" checked><label for="empPriv">Private / Non-Govt</label></div>
+            <div class="pill"><input type="radio" name="empType" id="empGovt" value="govt"><label for="empGovt">Govt Pay-Order</label></div>
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="form-group">
+            <label>Disabled Children</label>
+            <input type="number" id="disChildren" value="0" min="0" max="10">
+          </div>
+          <div class="form-group">
+            <label>Location</label>
+            <select id="location">
+              <option value="dhk">Dhaka / CTG City Corp</option>
+              <option value="other">Other City Corp</option>
+              <option value="non">Outside City Corp</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Taxpayer Status / Return Filing</label>
+          <div class="pills">
+            <div class="pill"><input type="radio" name="filingStatus" id="fsOntime" value="ontime" checked><label for="fsOntime">On-time filer</label></div>
+            <div class="pill"><input type="radio" name="filingStatus" id="fsLate" value="late"><label for="fsLate">Late filer</label></div>
+            <div class="pill"><input type="radio" name="filingStatus" id="fsNew" value="new"><label for="fsNew">New taxpayer</label></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Surcharge -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon red">🏛️</div>
+          <h2>Surcharge (if applicable)</h2>
+        </div>
+        <div class="info-strip">
+          💡 <span><strong>Surcharge</strong> applies on net assets >৳4Cr, or >1 motor car, or house >8,000 sqft.</span>
+        </div>
+        <div class="form-group">
+          <label>Net Wealth / Assets (৳)</label>
+          <input type="number" id="netWealth" placeholder="0">
+        </div>
+        <div class="row2">
+          <div class="form-group">
+            <label>Motor Vehicles Owned</label>
+            <input type="number" id="motorCars" value="0" min="0" max="20">
+          </div>
+          <div class="form-group">
+            <label>House Property Area (sqft)</label>
+            <input type="number" id="houseArea" value="0" min="0">
+          </div>
+        </div>
+      </div>
+
+      <!-- Income -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon gold">💰</div>
+          <h2>Annual Income</h2>
+        </div>
+
+        <div class="info-strip" id="salaryExInfo">
+          💡 <span><strong>Private salary</strong> — Enter annual employment income before the salary exemption. The calculator deducts lower of ⅓ of employment income or the yearly cap.</span>
+        </div>
+
+        <div class="form-group">
+          <label id="salaryLabel">Annual employment income before salary exemption</label>
+          <input type="number" id="inSalary" placeholder="e.g. 1200000">
+        </div>
+        <div class="form-group" id="salInputGroup">
+          <div class="pills">
+            <div class="pill"><input type="radio" name="salInput" id="salGross" value="gross" checked><label for="salGross">Before exemption</label></div>
+            <div class="pill"><input type="radio" name="salInput" id="salTaxable" value="taxable"><label for="salTaxable">Already taxable</label></div>
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="form-group">
+            <label>House Rent / Property (Net)</label>
+            <input type="number" id="inRent" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>Business / Profession</label>
+            <input type="number" id="inBiz" placeholder="0">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Agricultural Income</label>
+          <input type="number" id="inAgri" placeholder="0">
+        </div>
+
+        <div class="row2">
+          <div class="form-group">
+            <label>Bank Interest / FDR</label>
+            <input type="number" id="inBank" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>TDS on Bank Interest</label>
+            <input type="number" id="tdBank" placeholder="0">
+          </div>
+        </div>
+
+        <div style="font-size:0.68rem;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:0.6px;margin:10px 0 8px">Sanchayapatra Certificate Values</div>
+        <div class="row2">
+          <div class="form-group">
+            <label>Certificate Profit</label>
+            <input type="number" id="inSanch" placeholder="Profit shown on certificate">
+          </div>
+          <div class="form-group">
+            <label>Certificate TDS</label>
+            <input type="number" id="tdSanch" placeholder="TDS shown on certificate">
+          </div>
+        </div>
+        <div style="font-size:0.66rem;color:var(--text3);margin:-4px 0 10px;line-height:1.45">Copy both values directly from the certificate columns. The TDS is shown as final tax and also as already paid, so net Sanch. effect becomes zero.</div>
+
+        <div class="row2">
+          <div class="form-group">
+            <label>Capital Gains</label>
+            <input type="number" id="inCap" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>Share from Firm/AOP</label>
+            <input type="number" id="inFirm" placeholder="0">
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="form-group">
+            <label>Other Income</label>
+            <input type="number" id="inOther" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>Other TDS (Salary etc.)</label>
+            <input type="number" id="tdOther" placeholder="0">
+          </div>
+        </div>
+      </div>
+
+      <!-- Investment -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon blue">📊</div>
+          <h2>Investment & Rebate</h2>
+        </div>
+
+        <div class="info-strip">
+          💡 <span><strong>Rebate</strong> = min( 3% of eligible income, 15% of allowable investment, ৳10 lakh ). Enter <em>allowable</em> amounts only—after applying any legal caps per category.</span>
+        </div>
+
+        <div class="row2">
+          <div class="form-group">
+            <label>Life Insurance Premium (allowable)</label>
+            <input type="number" id="invIns" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>DPS / PF / GPF (allowable)</label>
+            <input type="number" id="invPF" placeholder="0">
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="form-group">
+            <label>Sanchayapatra (New Purchase, allowable)</label>
+            <input type="number" id="invSanch" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>Listed Stocks / Mutual Funds (allowable)</label>
+            <input type="number" id="invStock" placeholder="0">
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="form-group">
+            <label>Govt Securities / Bonds (allowable)</label>
+            <input type="number" id="invGovt" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>Donation to Approved Org (allowable)</label>
+            <input type="number" id="invDon" placeholder="0">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Other Eligible (Education, Home Loan Principal…)</label>
+          <input type="number" id="invOther" placeholder="0">
+        </div>
+      </div>
+
+      <button class="btn-go" onclick="calc()">Calculate Tax →</button>
+    </div>
+
+    <!-- ═══ RIGHT: RESULTS ═══ -->
+    <div id="resultsPanel">
+
+      <!-- Hero -->
+      <div class="result-hero anim-in" id="heroCard">
+        <div class="fy-label" id="rFY">ASSESSMENT YEAR 2025-26</div>
+        <div class="big-amount" id="rNet">৳ 0</div>
+        <div class="big-label" id="rNetLabel">Net Tax Payable</div>
+        <div class="eff-badge" id="rEff">Effective Rate: 0.00%</div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-row anim-in anim-d1">
+        <div class="kpi"><div class="kpi-val gold" id="kTot">৳0</div><div class="kpi-label">Total Income</div></div>
+        <div class="kpi"><div class="kpi-val blue" id="kTax">৳0</div><div class="kpi-label">Taxable Above Slab</div></div>
+        <div class="kpi"><div class="kpi-val green" id="kGross">৳0</div><div class="kpi-label">Gross Tax</div></div>
+        <div class="kpi"><div class="kpi-val red" id="kRebate">৳0</div><div class="kpi-label">Rebate Saved</div></div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="charts-row anim-in anim-d2">
+        <!-- Donut: Income Composition -->
+        <div class="chart-card">
+          <div class="chart-title">Income Composition</div>
+          <div style="text-align:center" id="donutContainer"></div>
+          <div class="chart-legend" id="donutLegend"></div>
+        </div>
+        <!-- Bar: Tax Slab Utilization -->
+        <div class="chart-card">
+          <div class="chart-title">Tax Slab Utilization</div>
+          <div id="barContainer"></div>
+        </div>
+      </div>
+
+      <!-- Donut: Tax Breakdown -->
+      <div class="charts-row anim-in anim-d3">
+        <div class="chart-card">
+          <div class="chart-title">Where Your Tax Goes</div>
+          <div style="text-align:center" id="taxDonut"></div>
+          <div class="chart-legend" id="taxDonutLegend"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Investment vs Required</div>
+          <div style="text-align:center" id="investGauge"></div>
+        </div>
+      </div>
+
+      <!-- Comparison strip -->
+      <div id="compareDiv" class="hidden"></div>
+
+      <!-- Slab Breakdown -->
+      <div class="card anim-in anim-d3">
+        <div class="card-head">
+          <div class="card-icon green">📋</div>
+          <h2>Slab-wise Tax Breakdown</h2>
+        </div>
+        <table class="tbl"><thead><tr><th>Slab Range</th><th style="text-align:right">Applied Amount</th><th style="text-align:right">Calculation</th><th>Tax (৳)</th></tr></thead><tbody id="slabTB"></tbody></table>
+      </div>
+
+      <!-- Detailed Calc -->
+      <div class="card anim-in anim-d4">
+        <div class="card-head">
+          <div class="card-icon gold">📝</div>
+          <h2>Step-by-Step Calculation</h2>
+        </div>
+        <table class="tbl"><tbody id="detTB"></tbody></table>
+      </div>
+
+      <!-- Investment Rebate -->
+      <div class="card anim-in anim-d5">
+        <div class="card-head">
+          <div class="card-icon blue">💡</div>
+          <h2>Investment Rebate Analysis</h2>
+        </div>
+        <table class="tbl"><tbody id="invTB"></tbody></table>
+        <div id="tipBox"></div>
+      </div>
+
+      <!-- Monthly -->
+      <div class="card anim-in anim-d5">
+        <div class="card-head">
+          <div class="card-icon red">📅</div>
+          <h2>Monthly Snapshot</h2>
+        </div>
+        <div class="monthly-row">
+          <div class="monthly-pill"><div class="mp-val gold" id="mInc">৳0</div><div class="mp-lbl">Monthly Income</div></div>
+          <div class="monthly-pill"><div class="mp-val" style="color:#FF6B7A" id="mTax">৳0</div><div class="mp-lbl">Monthly Tax</div></div>
+        </div>
+      </div>
+
+      <!-- Download PDF Button -->
+      <button class="btn-pdf" onclick="printSummary()">📄 Save A4 Tax Summary (PDF)</button>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ═══ SUPPORT / bKASH ═══ -->
+<div class="support-wrap" aria-label="Support this tool">
+  <div class="support-card">
+    <button class="coffee-support-btn" id="supportToggle" type="button" onclick="toggleSupportPanel()" aria-expanded="false" aria-controls="bkashPanel">
+      <span class="coffee-mark">☕</span>
+      <span class="coffee-text"><b>Buy me a coffee</b><small>Support this free tax estimator</small></span>
+    </button>
+    <div class="bkash-panel hidden" id="bkashPanel">
+      <div class="bkash-row">
+        <div class="bkash-logo-box"><img src="data:image/png;base64,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" alt="bKash logo"></div>
+        <div class="bkash-copy">
+          <div class="bkash-title">bKash support number</div>
+          <div class="bkash-number">+8801924959405</div>
+          <div class="bkash-note">Tap copy and send support through bKash.</div>
+        </div>
+        <button class="copy-bkash-btn" type="button" onclick="copyBkashNumber()">Copy</button>
+      </div>
+      <div class="support-toast" id="supportToast">Copied: +8801924959405</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     A4 PRINT SUMMARY — Off-screen, rendered on demand
+     ═══════════════════════════════════════════════════ -->
+<div id="printSummary"></div>
+
+<div class="footer">
+  ⚖️ Salary-focused tax estimator for individual taxpayers • Not a full return calculator • Based on <strong>আয়কর পরিপত্র ২০২৫-২০২৬</strong> (Tax Circular 2025-2026) &amp; Income Tax Act 2023 • Consult a tax professional for filing
+</div>
+
+<!-- ═══════════ SCRIPT ═══════════ -->
+<script>
+let FY='current';
+
+const CFG={
+  current:{
+    label:'AY 2025-26 (FY 2024-25)', salCap:450000,
+    slabs:[{l:350000,r:0},{l:100000,r:.05},{l:400000,r:.10},{l:500000,r:.15},{l:500000,r:.20},{l:2000000,r:.25},{l:Infinity,r:.30}],
+    ex:{male:350000,female:400000,senior:400000,third_gender:475000,disabled:475000,freedom_fighter:500000,dc:50000},
+    minTax:{dhk:5000,other:4000,non:3000}, newMin:null, maxReb:1000000
+  },
+  next:{
+    label:'AY 2026-27 (FY 2025-26)', salCap:500000,
+    slabs:[{l:375000,r:0},{l:300000,r:.10},{l:400000,r:.15},{l:500000,r:.20},{l:2000000,r:.25},{l:Infinity,r:.30}],
+    ex:{male:375000,female:425000,senior:425000,third_gender:500000,disabled:500000,freedom_fighter:525000,dc:50000},
+    minTax:{dhk:5000,other:5000,non:5000}, newMin:1000, maxReb:1000000
+  }
+};
+
+/* Surcharge rates on net assets for individuals */
+const CRORE = 10000000;
+const SURCHARGE=[
+  {max:4*CRORE, rate:0},        // up to 4 Cr = 0%
+  {max:10*CRORE, rate:0.10},    // above 4 Cr to 10 Cr = 10%
+  {max:20*CRORE, rate:0.20},    // above 10 Cr to 20 Cr = 20%
+  {max:50*CRORE, rate:0.30},    // above 20 Cr to 50 Cr = 30%
+  {max:Infinity, rate:0.35}     // above 50 Cr = 35%
+];
+
+function pickFY(f){
+  FY=f;
+  document.getElementById('tabCur').classList.toggle('active',f==='current');
+  document.getElementById('tabNext').classList.toggle('active',f==='next');
+  updateSalaryUI();
+  if(document.getElementById('resultsPanel').classList.contains('show')) calc();
+}
+
+function updateSalaryUI(){
+  const empType=document.querySelector('[name=empType]:checked')?.value || 'private';
+  const salaryLabel=document.getElementById('salaryLabel');
+  const salaryExInfo=document.getElementById('salaryExInfo');
+  const salInputGroup=document.getElementById('salInputGroup');
+  const salGross=document.getElementById('salGross');
+  const salTaxable=document.getElementById('salTaxable');
+  const inSalary=document.getElementById('inSalary');
+
+  if(empType==='govt'){
+    salaryLabel.textContent='Govt taxable pay components: basic salary + festival allowance + bonus + other taxable pay';
+    inSalary.placeholder='e.g. 700000';
+    salaryExInfo.innerHTML='💡 <span><strong>Govt pay-order employee</strong> — Enter taxable pay components only. Do not include exempt govt allowances. The ⅓ salary exemption does not apply.</span>';
+    salInputGroup.classList.add('hidden');
+    salGross.checked=true;
+    salTaxable.checked=false;
+  } else {
+    salaryLabel.textContent='Annual employment income before salary exemption';
+    inSalary.placeholder='e.g. 1200000';
+    salaryExInfo.innerHTML='💡 <span><strong>Private salary</strong> — Enter annual employment income before the salary exemption. The calculator deducts lower of ⅓ of employment income or the yearly cap.</span>';
+    salInputGroup.classList.remove('hidden');
+  }
+}
+
+const V=id=>(parseFloat(document.getElementById(id).value)||0);
+const F=n=>{ if(n<0) return '-৳'+Math.abs(Math.round(n)).toLocaleString('en-IN'); return '৳'+Math.round(n).toLocaleString('en-IN'); };
+const FS=n=>{ const a=Math.abs(n); const s=n<0?'-':''; if(a>=1e7) return s+'৳'+(a/1e7).toFixed(1)+'Cr'; if(a>=1e5) return s+'৳'+(a/1e5).toFixed(1)+'L'; if(a>=1e3) return s+'৳'+(a/1e3).toFixed(1)+'K'; return F(n); };
+
+function calc(){
+  const c=CFG[FY];
+  const gen=document.querySelector('[name=gender]:checked').value;
+  const q=document.querySelector('[name=quota]:checked').value;
+  const empType=document.querySelector('[name=empType]:checked').value;
+  const salInputType=document.querySelector('[name=salInput]:checked').value;
+  const filing=document.querySelector('[name=filingStatus]:checked').value;
+  const dc=V('disChildren');
+  const loc=document.getElementById('location').value;
+  const isNew=(filing==='new');
+  const isLate=(filing==='late');
+
+  // Income
+  const salRaw=V('inSalary'), rent=V('inRent'), biz=V('inBiz'), agri=V('inAgri');
+  const bank=V('inBank'), tdB=V('tdBank'), sanP=V('inSanch'), tdS=V('tdSanch');
+  const cap=V('inCap'), firm=V('inFirm'), other=V('inOther'), tdO=V('tdOther');
+
+  // Investment
+  const ins=V('invIns'), pf=V('invPF'), invS=V('invSanch'), stk=V('invStock');
+  const govt=V('invGovt'), don=V('invDon'), invO=V('invOther');
+
+  // Surcharge inputs
+  const netWealth=V('netWealth'), motorCars=V('motorCars'), houseArea=V('houseArea');
+
+  /* ═══ FIX #2 & #3: Salary exemption logic ═══
+     - Govt pay-order employees: NO ⅓ exemption (they enter taxable components)
+     - Private: apply ⅓ or cap, UNLESS user toggled "already taxable"
+  */
+  let salEx=0, taxSal=salRaw;
+  if(empType==='private' && salInputType==='gross'){
+    salEx=Math.min(salRaw/3, c.salCap);
+    taxSal=Math.max(0, salRaw-salEx);
+  }
+  // If govt or already-taxable, salEx=0, taxSal=salRaw
+
+  // Exemption threshold
+  let ex=c.ex.male;
+  if(gen==='female'||q==='senior') ex=c.ex.female;
+  if(gen==='third_gender') ex=c.ex.third_gender;
+  if(q==='disabled') ex=c.ex.disabled;
+  if(q==='freedom_fighter') ex=c.ex.freedom_fighter;
+  if(q==='senior'&&gen!=='third_gender') ex=c.ex.senior;
+  ex+=dc*c.ex.dc;
+
+  const slabs=c.slabs.map(s=>({...s}));
+  slabs[0].l=ex;
+
+  /* ═══ FIX #1: Sanchayapatra NOT in regular slab income ═══
+     Regular income = everything EXCEPT sanchayapatra profit (final tax)
+     Sanchayapatra TDS is treated as final tax liability separately.
+  */
+  const grossIncome=salRaw+rent+biz+agri+bank+sanP+cap+firm+other;
+  const regularIncome=taxSal+rent+biz+agri+bank+cap+firm+other; // NO sanP
+  const totalIncomeForDisplay=regularIncome+sanP; // for display only
+
+  // Apply slabs to REGULAR income only (not sanchayapatra)
+  let rem=regularIncome, grossTax=0, slabData=[];
+  for(let i=0;i<slabs.length;i++){
+    const s=slabs[i]; const t=Math.min(rem,s.l);
+    if(t<=0){slabData.push({rng:slabRng(slabs,i),rate:s.r,amt:0,tax:0});continue;}
+    const tx=t*s.r; grossTax+=tx; rem-=t;
+    slabData.push({rng:slabRng(slabs,i),rate:s.r,amt:t,tax:tx});
+    if(rem<=0) break;
+  }
+
+  /* ═══ FIX #1 cont: Rebate base excludes sanchayapatra AND firm share ═══ */
+  const rebElig=regularIncome-firm; // exclude firm/AOP share + sanP already excluded
+  const totInv=ins+pf+invS+stk+govt+don+invO;
+  const a3=rebElig*0.03, b15=totInv*0.15;
+
+  /* ═══ FIX #5: Late filers lose rebate ═══ */
+  let rebate=0;
+  if(!isLate){
+    rebate=Math.max(0, Math.min(a3,b15,c.maxReb));
+  }
+  const inv20=rebElig*0.20;
+
+  // Sanchayapatra = final tax (TDS on it is the entire tax for that income)
+  const sanFinalTax=tdS;
+
+  // Regular tax after rebate
+  let taxAR=grossTax-rebate;
+  const taxBM=taxAR;
+  const minT=(isNew && c.newMin != null) ? c.newMin : c.minTax[loc];
+  const overEx=regularIncome>ex;
+  let minApplied=false;
+  if(overEx&&taxAR<minT){taxAR=minT;minApplied=true;}
+  if(!overEx){taxAR=0;grossTax=0;}
+
+  /* ═══ FIX #6: Surcharge calculation ═══ */
+  let surchargeRate=0, surchargeAmt=0;
+  // Determine surcharge rate from net wealth
+  for(const s of SURCHARGE){
+    if(netWealth<=s.max){surchargeRate=s.rate;break;}
+  }
+  // Also 10% if >1 motor car or house >8000 sqft (minimum 10%)
+  if(motorCars>1 || houseArea>8000){
+    surchargeRate=Math.max(surchargeRate, 0.10);
+  }
+  // AY 2026-27: surcharge is on tax computed at slab rates (not minimum tax)
+  const surchargeBase=(FY==='next') ? grossTax : taxAR;
+  surchargeAmt=Math.round(surchargeBase * surchargeRate);
+
+  // Total liability = regular tax + sanchayapatra final tax + surcharge
+  const totalLiab=taxAR+sanFinalTax+surchargeAmt;
+  const totalTDS=tdB+tdS+tdO;
+  const net=totalLiab-totalTDS;
+  const effRate=totalIncomeForDisplay>0?(totalLiab/totalIncomeForDisplay):0;
+
+  // ═══ RENDER ═══
+  const rp=document.getElementById('resultsPanel');
+  rp.classList.add('show');
+
+  document.getElementById('rFY').textContent=c.label.toUpperCase();
+  document.getElementById('rNet').textContent=F(net);
+  document.getElementById('rNetLabel').textContent=net>=0?'Net Tax Payable':'Refund Due 🎉';
+  document.getElementById('rEff').textContent='Effective Rate: '+(effRate*100).toFixed(2)+'%';
+
+  document.getElementById('kTot').textContent=FS(totalIncomeForDisplay);
+  document.getElementById('kTax').textContent=FS(Math.max(0,regularIncome-ex));
+  document.getElementById('kGross').textContent=FS(grossTax);
+  document.getElementById('kRebate').textContent=FS(rebate);
+
+  document.getElementById('mInc').textContent=F(grossIncome/12);
+  document.getElementById('mTax').textContent=F(Math.max(0,net)/12);
+
+  // ── SLAB TABLE ──
+  let sh='';
+  slabData.forEach(s=>{
+    const cls=s.rate===0?'row-highlight':'';
+    const rateTxt=(s.rate*100).toFixed(0)+'%';
+    const calcTxt=F(s.amt)+' × '+rateTxt;
+    sh+=`<tr class="${cls}"><td>${s.rng}</td><td style="text-align:right">${F(s.amt)}</td><td style="text-align:right"><span style="color:var(--text2)">${calcTxt}</span></td><td>${F(s.tax)}</td></tr>`;
+  });
+  sh+=`<tr class="row-total"><td colspan="3">Gross Tax</td><td>${F(grossTax)}</td></tr>`;
+  document.getElementById('slabTB').innerHTML=sh;
+
+  // ── DETAIL TABLE ──
+  let dh='';
+  const R=(l,v,c='')=>{ dh+=`<tr class="${c}"><td>${l}</td><td>${F(v)}</td></tr>`; };
+  const S=()=>{ dh+=`<tr class="row-sep"><td colspan="2"></td></tr>`; };
+
+  R('💼 '+(empType==='govt'?'Govt Taxable Pay':'Gross Salary'), salRaw);
+  if(salEx>0){ R('   Less: ⅓ Exemption (max '+F(c.salCap)+')', -salEx); R('   <strong>Taxable Salary</strong>', taxSal); }
+  else if(empType==='govt'){ R('   <em>Govt pay-order: no ⅓ exemption</em>', 0, 'row-highlight'); }
+  else if(salInputType==='taxable'){ R('   <em>Entered as already-taxable</em>', 0, 'row-highlight'); }
+  if(rent) R('🏠 Rental Income', rent); if(biz) R('🏢 Business Income', biz);
+  if(agri) R('🌾 Agricultural Income', agri); if(bank) R('🏦 Bank Interest', bank);
+  if(cap) R('📈 Capital Gains', cap);
+  if(firm) R('🤝 Firm/AOP Share', firm); if(other) R('📦 Other', other);
+  S(); R('<strong>Regular Slab Income</strong>', regularIncome, 'row-total');
+  if(sanP>0) R('📜 Cert. Sanch. Profit (not in slab)', sanP, 'row-highlight');
+  R('Tax-Free Threshold', ex, 'row-highlight'); S();
+  R('Gross Tax on Regular Income', grossTax);
+  if(isLate) R('⚠️ Late filing — investment rebate disallowed', 0, 'row-highlight');
+  if(rebate>0) R('Less: Investment Rebate', -rebate);
+  R('Tax After Rebate', Math.max(taxBM,0));
+  if(minApplied) R('⚠️ Minimum Tax Applied ('+F(minT)+')', minT, 'row-highlight');
+  R('<strong>Regular Tax</strong>', taxAR);
+  if(sanP>0 || tdS>0){
+    S();
+    R('📜 Cert. Sanch. Profit', sanP, 'row-highlight');
+    R('Sanch. final tax = cert. TDS', sanFinalTax);
+    R('Less: Sanch. TDS already paid', -tdS);
+    R('<strong>Net Sanch. effect</strong>', sanFinalTax-tdS, 'row-highlight');
+  }
+  if(surchargeAmt>0){S(); R('🏛️ Surcharge ('+Math.round(surchargeRate*100)+'% on '+F(surchargeBase)+')', surchargeAmt);}
+  S(); R('<strong>Total Tax Liability</strong>', totalLiab, 'row-total'); S();
+  if(tdB>0) R('TDS: Bank Interest', tdB); if(tdS>0) R('TDS: Sanch. certificate', tdS);
+  if(tdO>0) R('TDS: Salary / Other', tdO); R('<strong>Total TDS Paid</strong>', totalTDS);
+  S(); R('<strong>'+(net>=0?'💳 Net Payable':'🎉 Refund')+'</strong>', net, 'row-total');
+  document.getElementById('detTB').innerHTML=dh;
+
+  // ── INVEST TABLE ──
+  let ih='';
+  const IR=(l,v,c='')=>{ ih+=`<tr class="${c}"><td>${l}</td><td>${F(v)}</td></tr>`; };
+  if(ins) IR('Life Insurance', ins); if(pf) IR('DPS / PF', pf);
+  if(invS) IR('Sanchayapatra', invS); if(stk) IR('Stocks / Funds', stk);
+  if(govt) IR('Govt Securities', govt); if(don) IR('Donation / Zakat', don);
+  if(invO) IR('Other', invO);
+  IR('<strong>Total Investment</strong>', totInv, 'row-total');
+  ih+='<tr><td colspan="2" style="padding:8px;border:none"></td></tr>';
+  IR('(A) 3% of Eligible Income', a3); IR('(B) 15% of Investment', b15);
+  IR('(C) Max Rebate Cap', c.maxReb);
+  IR('<strong>Rebate = min(A,B,C)</strong>', rebate, 'row-total');
+  document.getElementById('invTB').innerHTML=ih;
+
+  // Tip
+  let tipH='';
+  if(rebElig>0&&totInv<inv20&&grossTax>0){
+    const need=Math.round(inv20-totInv);
+    const potSave=Math.round(Math.min(a3,inv20*0.15,c.maxReb)-rebate);
+    if(need>0&&potSave>0) tipH=`<div class="tip-card"><strong>💡 Tip:</strong> Invest ${F(need)} more (total ${F(Math.round(inv20))} = 20% of eligible income) to save up to <strong>${F(potSave)}</strong> more.</div>`;
+  }
+  if(rebate>0&&rebate>=a3&&totInv>inv20) tipH=`<div class="save-card">✅ <strong>Optimal!</strong> You've maxed your rebate for this income level.</div>`;
+  document.getElementById('tipBox').innerHTML=tipH;
+
+  // ═══ CHARTS ═══
+  renderDonut(taxSal,rent,biz,agri,bank,sanP,cap,firm,other);
+  renderBars(slabData,regularIncome);
+  renderTaxDonut(grossTax,rebate,taxAR,sanFinalTax,totalTDS,net);
+  renderInvestGauge(totInv,inv20,rebElig);
+
+  // ═══ COMPARISON ═══
+  const cd=document.getElementById('compareDiv');
+  if(FY==='next'){
+    const cc=CFG.current;
+    let cSalEx=0, cTaxSal=salRaw;
+    if(empType==='private'&&salInputType==='gross'){cSalEx=Math.min(salRaw/3,cc.salCap);cTaxSal=Math.max(0,salRaw-cSalEx);}
+    const cRegInc=cTaxSal+rent+biz+agri+bank+cap+firm+other; // NO sanP
+    let cEx=cc.ex.male;
+    if(gen==='female'||q==='senior')cEx=cc.ex.female;
+    if(gen==='third_gender')cEx=cc.ex.third_gender;
+    if(q==='disabled')cEx=cc.ex.disabled;
+    if(q==='freedom_fighter')cEx=cc.ex.freedom_fighter;
+    cEx+=dc*cc.ex.dc;
+    const cSlabs=cc.slabs.map(s=>({...s})); cSlabs[0].l=cEx;
+    let cRem=cRegInc,cGT=0;
+    for(const s of cSlabs){const t=Math.min(cRem,s.l);if(t<=0)continue;cGT+=t*s.r;cRem-=t;if(cRem<=0)break;}
+    const cRE=cRegInc-firm;
+    const cReb=isLate?0:Math.min(cRE*0.03,totInv*0.15,cc.maxReb);
+    let cTAR=cGT-Math.max(0,cReb);
+    const cMin=cc.minTax[loc];
+    if(cRegInc>cEx&&cTAR<cMin)cTAR=cMin;
+    if(cRegInc<=cEx)cTAR=0;
+    let cSurchargeRate=0;
+    for(const s of SURCHARGE){
+      if(netWealth<=s.max){cSurchargeRate=s.rate;break;}
+    }
+    if(motorCars>1 || houseArea>8000){
+      cSurchargeRate=Math.max(cSurchargeRate, 0.10);
+    }
+    const cSurchargeAmt=Math.round(cTAR*cSurchargeRate);
+    const cTL=cTAR+sanFinalTax+cSurchargeAmt;
+    const diff=cTL-totalLiab;
+    cd.classList.remove('hidden');
+    if(diff>0) cd.innerHTML=`<div class="compare-strip"><span class="compare-badge" style="background:#2E7D32;color:#fff">📉 SAVE</span><span class="compare-text">Under AY 2026-27, you save <strong>${F(diff)}</strong> (${F(cTL)} → ${F(totalLiab)})</span></div>`;
+    else if(diff<0) cd.innerHTML=`<div class="compare-strip"><span class="compare-badge" style="background:#F42A41;color:#fff">📈 MORE</span><span class="compare-text">Under AY 2026-27, you pay <strong>${F(Math.abs(diff))}</strong> more (${F(cTL)} → ${F(totalLiab)})</span></div>`;
+    else cd.innerHTML=`<div class="compare-strip"><span class="compare-badge" style="background:#546E7A;color:#fff">=</span><span class="compare-text">Same tax under both years.</span></div>`;
+  } else cd.classList.add('hidden');
+
+  if(window.innerWidth<1024) rp.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function slabRng(slabs,i){
+  let s=0; for(let j=0;j<i;j++) s+=slabs[j].l;
+  if(i===0) return 'First '+F(slabs[0].l)+' (Free)';
+  if(slabs[i].l===Infinity) return 'Above '+F(s);
+  return F(s+1)+' – '+F(s+slabs[i].l);
+}
+
+// ═══ SVG DONUT CHART ═══
+function renderDonut(sal,rent,biz,agri,bank,sanch,cap,firm,other){
+  const items=[
+    {v:sal,c:'#4AE68A',l:'Salary'},{v:rent,c:'#4FC3F7',l:'Rent'},
+    {v:biz,c:'#E8A838',l:'Business'},{v:agri,c:'#81C784',l:'Agriculture'},
+    {v:bank,c:'#BA68C8',l:'Bank Interest'},{v:sanch,c:'#FF8A65',l:'Sanchayapatra'},
+    {v:cap,c:'#FFD54F',l:'Capital Gains'},{v:firm,c:'#90A4AE',l:'Firm Share'},
+    {v:other,c:'#F06292',l:'Other'}
+  ].filter(i=>i.v>0);
+
+  const total=items.reduce((a,b)=>a+b.v,0);
+  if(total===0){document.getElementById('donutContainer').innerHTML='<p style="color:var(--text3);font-size:0.82rem;padding:40px 0">No income data</p>';document.getElementById('donutLegend').innerHTML='';return;}
+
+  const cx=90,cy=90,R=70,r=45;
+  let paths='', offset=0;
+  items.forEach(item=>{
+    const pct=item.v/total;
+    const a1=offset*2*Math.PI-Math.PI/2;
+    const a2=(offset+pct)*2*Math.PI-Math.PI/2;
+    const lg=pct>0.5?1:0;
+    const x1=cx+R*Math.cos(a1),y1=cy+R*Math.sin(a1);
+    const x2=cx+R*Math.cos(a2),y2=cy+R*Math.sin(a2);
+    const x3=cx+r*Math.cos(a2),y3=cy+r*Math.sin(a2);
+    const x4=cx+r*Math.cos(a1),y4=cy+r*Math.sin(a1);
+    paths+=`<path d="M${x1},${y1} A${R},${R} 0 ${lg},1 ${x2},${y2} L${x3},${y3} A${r},${r} 0 ${lg},0 ${x4},${y4}Z" fill="${item.c}" opacity="0.85"><animate attributeName="opacity" from="0" to="0.85" dur="0.6s" fill="freeze"/></path>`;
+    offset+=pct;
+  });
+
+  document.getElementById('donutContainer').innerHTML=`<svg viewBox="0 0 180 180" width="180" height="180">${paths}<text x="90" y="85" text-anchor="middle" class="donut-center-text">Total</text><text x="90" y="105" text-anchor="middle" class="donut-center-val">${FS(total)}</text></svg>`;
+
+  let legH='';
+  items.forEach(i=>{
+    legH+=`<div class="legend-item"><span class="legend-dot" style="background:${i.c}"></span>${i.l}<span class="legend-val">${FS(i.v)}</span></div>`;
+  });
+  document.getElementById('donutLegend').innerHTML=legH;
+}
+
+// ═══ BAR CHART (Slab Utilization) ═══
+function renderBars(slabData,total){
+  if(total<=0){document.getElementById('barContainer').innerHTML='<p style="color:var(--text3);font-size:0.82rem;padding:20px 0">No data</p>';return;}
+  const colors=['#4AE68A','#4FC3F7','#E8A838','#FF8A65','#BA68C8','#FFD54F','#F06292'];
+  let html='';
+  slabData.forEach((s,i)=>{
+    if(s.rate===0&&s.amt===0) return;
+    const pct=total>0?Math.max(0,Math.min(100,(s.amt/total)*100)):0;
+    const col=colors[i%colors.length];
+    html+=`<div class="bar-row"><div class="bar-label">${(s.rate*100).toFixed(0)}%</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${col}" data-val="${FS(s.tax)}"></div></div></div>`;
+  });
+  document.getElementById('barContainer').innerHTML=html;
+}
+
+// ═══ TAX DONUT ═══
+function renderTaxDonut(gross,reb,regular,sanFin,tds,net){
+  const paid=Math.max(0,net);
+  const items=[
+    {v:reb,c:'#4AE68A',l:'Rebate Saved'},
+    {v:tds,c:'#4FC3F7',l:'TDS Already Paid'},
+    {v:paid,c:'#E8A838',l:'Net Payable'},
+  ].filter(i=>i.v>0);
+  if(sanFin>0) items.push({v:sanFin,c:'#BA68C8',l:'Sanch. Tax'});
+
+  const total=items.reduce((a,b)=>a+b.v,0);
+  if(total===0){document.getElementById('taxDonut').innerHTML='<p style="color:var(--text3);font-size:0.82rem;padding:40px 0">No tax</p>';document.getElementById('taxDonutLegend').innerHTML='';return;}
+
+  const cx=90,cy=90,R=70,r=45;
+  let paths='',offset=0;
+  items.forEach(item=>{
+    const pct=item.v/total;
+    const a1=offset*2*Math.PI-Math.PI/2;
+    const a2=(offset+pct)*2*Math.PI-Math.PI/2;
+    const lg=pct>0.5?1:0;
+    const x1=cx+R*Math.cos(a1),y1=cy+R*Math.sin(a1);
+    const x2=cx+R*Math.cos(a2),y2=cy+R*Math.sin(a2);
+    const x3=cx+r*Math.cos(a2),y3=cy+r*Math.sin(a2);
+    const x4=cx+r*Math.cos(a1),y4=cy+r*Math.sin(a1);
+    paths+=`<path d="M${x1},${y1} A${R},${R} 0 ${lg},1 ${x2},${y2} L${x3},${y3} A${r},${r} 0 ${lg},0 ${x4},${y4}Z" fill="${item.c}" opacity="0.85"><animate attributeName="opacity" from="0" to="0.85" dur="0.6s" fill="freeze"/></path>`;
+    offset+=pct;
+  });
+  document.getElementById('taxDonut').innerHTML=`<svg viewBox="0 0 180 180" width="180" height="180">${paths}<text x="90" y="85" text-anchor="middle" class="donut-center-text">Liability</text><text x="90" y="105" text-anchor="middle" class="donut-center-val">${FS(gross)}</text></svg>`;
+
+  let leg='';
+  items.forEach(i=>{leg+=`<div class="legend-item"><span class="legend-dot" style="background:${i.c}"></span>${i.l}<span class="legend-val">${FS(i.v)}</span></div>`;});
+  document.getElementById('taxDonutLegend').innerHTML=leg;
+}
+
+// ═══ INVESTMENT GAUGE ═══
+function renderInvestGauge(actual,optimal,eligible){
+  if(eligible<=0){document.getElementById('investGauge').innerHTML='<p style="color:var(--text3);font-size:0.82rem;padding:40px 0">No eligible income</p>';return;}
+  const pct=optimal>0?Math.min(1,actual/optimal):0;
+  const angle=pct*270-135;
+  const R=65, cx=90, cy=95;
+
+  // Arc path helper
+  const arc=(startAngle,endAngle,radius)=>{
+    const s=startAngle*Math.PI/180, e=endAngle*Math.PI/180;
+    const x1=cx+radius*Math.cos(s),y1=cy+radius*Math.sin(s);
+    const x2=cx+radius*Math.cos(e),y2=cy+radius*Math.sin(e);
+    const lg=(endAngle-startAngle)>180?1:0;
+    return `M${x1},${y1} A${radius},${radius} 0 ${lg},1 ${x2},${y2}`;
+  };
+
+  const bgArc=arc(-225,45,R);
+  const fillEnd=-225+pct*270;
+  const fillArc=arc(-225,Math.min(fillEnd,45),R);
+  const col=pct>=0.9?'#4AE68A':pct>=0.5?'#E8A838':'#FF6B7A';
+
+  document.getElementById('investGauge').innerHTML=`
+    <svg viewBox="0 0 180 160" width="180" height="160">
+      <path d="${bgArc}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="14" stroke-linecap="round"/>
+      <path d="${fillArc}" fill="none" stroke="${col}" stroke-width="14" stroke-linecap="round">
+        <animate attributeName="stroke-dashoffset" from="500" to="0" dur="1s" fill="freeze"/>
+      </path>
+      <text x="90" y="85" text-anchor="middle" style="font-size:22px;fill:#fff;font-weight:900">${(pct*100).toFixed(0)}%</text>
+      <text x="90" y="105" text-anchor="middle" style="font-size:10px;fill:${col};font-weight:700">${pct>=0.9?'OPTIMAL':pct>=0.5?'GOOD':'LOW'}</text>
+      <text x="90" y="148" text-anchor="middle" style="font-size:9px;fill:var(--text3)">Invested ${FS(actual)} of ${FS(optimal)} ideal</text>
+    </svg>`;
+}
+
+// Auto-recalc on live input
+let _t;
+document.querySelectorAll('input,select').forEach(el=>{
+  el.addEventListener('input',()=>{
+    updateSalaryUI();
+    clearTimeout(_t);
+    _t=setTimeout(()=>{ if(document.getElementById('resultsPanel').classList.contains('show')) calc(); },250);
+  });
+});
+document.querySelectorAll('[name=empType]').forEach(el=>{
+  el.addEventListener('change',()=>{
+    updateSalaryUI();
+    if(document.getElementById('resultsPanel').classList.contains('show')) calc();
+  });
+});
+updateSalaryUI();
+
+// ═══════════════════════════════════════════
+// A4 PRINT SUMMARY GENERATOR
+// ═══════════════════════════════════════════
+
+function toggleSupportPanel(){
+  const panel=document.getElementById('bkashPanel');
+  const btn=document.getElementById('supportToggle');
+  if(!panel||!btn) return;
+  const isHidden=panel.classList.contains('hidden');
+  panel.classList.toggle('hidden', !isHidden);
+  btn.setAttribute('aria-expanded', String(isHidden));
+}
+function copyBkashNumber(){
+  const num='+8801924959405';
+  const toast=document.getElementById('supportToast');
+  const show=()=>{ if(toast){ toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),1800); } };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(num).then(show).catch(show);
+  } else {
+    const t=document.createElement('textarea');
+    t.value=num; document.body.appendChild(t); t.select();
+    try{document.execCommand('copy');}catch(e){}
+    document.body.removeChild(t); show();
+  }
+}
+
+function printSummary(){
+  const c=CFG[FY];
+  const gen=document.querySelector('[name=gender]:checked').value;
+  const q=document.querySelector('[name=quota]:checked').value;
+  const dc=V('disChildren');
+  const loc=document.getElementById('location').value;
+  const filing=document.querySelector('[name=filingStatus]:checked').value;
+  const isNew=(filing==='new');
+
+  const empType=document.querySelector('[name=empType]:checked').value;
+  const salInputType=document.querySelector('[name=salInput]:checked').value;
+  const isLate=(filing==='late');
+
+  const salRaw=V('inSalary'),rent=V('inRent'),biz=V('inBiz'),agri=V('inAgri');
+  const bank=V('inBank'),tdB=V('tdBank'),sanP=V('inSanch'),tdS=V('tdSanch');
+  const cap=V('inCap'),firm=V('inFirm'),other=V('inOther'),tdO=V('tdOther');
+  const ins=V('invIns'),pf=V('invPF'),invS=V('invSanch'),stk=V('invStock');
+  const govt=V('invGovt'),don=V('invDon'),invO=V('invOther');
+  const netWealth=V('netWealth'),motorCars=V('motorCars'),houseArea=V('houseArea');
+
+  let salEx=0,taxSal=salRaw;
+  if(empType==='private'&&salInputType==='gross'){salEx=Math.min(salRaw/3,c.salCap);taxSal=Math.max(0,salRaw-salEx);}
+
+  let ex=c.ex.male;
+  if(gen==='female'||q==='senior')ex=c.ex.female;
+  if(gen==='third_gender')ex=c.ex.third_gender;
+  if(q==='disabled')ex=c.ex.disabled;
+  if(q==='freedom_fighter')ex=c.ex.freedom_fighter;
+  if(q==='senior'&&gen!=='third_gender')ex=c.ex.senior;
+  ex+=dc*c.ex.dc;
+
+  const slabs=c.slabs.map(s=>({...s})); slabs[0].l=ex;
+  const grossIncome=salRaw+rent+biz+agri+bank+sanP+cap+firm+other;
+  const regularIncome=taxSal+rent+biz+agri+bank+cap+firm+other;
+  const totalIncome=regularIncome+sanP;
+
+  let rem=regularIncome,grossTax=0,slabData=[];
+  for(let i=0;i<slabs.length;i++){
+    const s=slabs[i],t=Math.min(rem,s.l);
+    if(t<=0)continue;
+    const tx=t*s.r; grossTax+=tx; rem-=t;
+    slabData.push({rng:slabRng(slabs,i),rate:s.r,amt:t,tax:tx});
+    if(rem<=0)break;
+  }
+
+  const rebElig=regularIncome-firm;
+  const totInv=ins+pf+invS+stk+govt+don+invO;
+  const a3=rebElig*0.03,b15=totInv*0.15;
+  const rebate=isLate?0:Math.max(0,Math.min(a3,b15,c.maxReb));
+  const inv20=rebElig*0.20;
+  const sanFinalTax=tdS;
+
+  let taxAR=grossTax-rebate;
+  const minT=(isNew && c.newMin != null) ? c.newMin : c.minTax[loc];
+  const overEx=regularIncome>ex;
+  let minApplied=false;
+  if(overEx&&taxAR<minT){taxAR=minT;minApplied=true;}
+  if(!overEx){taxAR=0;grossTax=0;}
+
+  let surchargeRate=0;
+  for(const sr of SURCHARGE){if(netWealth<=sr.max){surchargeRate=sr.rate;break;}}
+  if(motorCars>1||houseArea>8000)surchargeRate=Math.max(surchargeRate,0.10);
+  const surchargeBase=(FY==='next')?grossTax:taxAR;
+  const surchargeAmt=Math.round(surchargeBase*surchargeRate);
+
+  const totalLiab=taxAR+sanFinalTax+surchargeAmt;
+  const totalTDS=tdB+tdS+tdO;
+  const net=totalLiab-totalTDS;
+  const effRate=totalIncome>0?(totalLiab/totalIncome):0;
+  const invPct=inv20>0?Math.min(1,totInv/inv20):0;
+
+  // Gender / quota labels
+  const gLabel={male:'Male',female:'Female',third_gender:'Third Gender'}[gen]||'Male';
+  const qLabel={none:'General',senior:'65+ Senior',disabled:'Disabled',freedom_fighter:'Freedom Fighter'}[q]||'General';
+  const locLabel={dhk:'Dhaka / CTG City Corp',other:'Other City Corp',non:'Outside City Corp'}[loc]||'';
+  const today=new Date();
+  const dateStr=today.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+
+  // ── Income items for donut ──
+  const incItems=[
+    {v:taxSal,c:'#006A4E',l:'Salary'},{v:rent,c:'#0d47a1',l:'Rent'},
+    {v:biz,c:'#e65100',l:'Business'},{v:agri,c:'#2e7d32',l:'Agriculture'},
+    {v:bank,c:'#6a1b9a',l:'Bank Int.'},{v:sanP,c:'#bf360c',l:'Sanchayapatra'},
+    {v:cap,c:'#f9a825',l:'Cap. Gains'},{v:firm,c:'#546e7a',l:'Firm Share'},
+    {v:other,c:'#ad1457',l:'Other'}
+  ].filter(x=>x.v>0);
+
+  // ── Tax allocation items for donut ──
+  const taxItems=[
+    {v:rebate,c:'#2e7d32',l:'Rebate Saved'},
+    {v:totalTDS,c:'#0d47a1',l:'TDS Paid'},
+    {v:Math.max(0,net),c:'#e65100',l:'Net Payable'},
+  ].filter(x=>x.v>0);
+
+  // ── SVG donut builder (print-safe, no animations) ──
+  function mkDonut(items,size,cx,cy,R,r,centerLine1,centerLine2){
+    const total=items.reduce((a,b)=>a+b.v,0);
+    if(total===0) return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><text x="${cx}" y="${cy}" text-anchor="middle" fill="#aaa" font-size="9">No data</text></svg>`;
+    let paths='',off=0;
+    items.forEach(it=>{
+      const p=it.v/total;
+      const a1=off*2*Math.PI-Math.PI/2, a2=(off+p)*2*Math.PI-Math.PI/2;
+      const lg=p>0.5?1:0;
+      paths+=`<path d="M${cx+R*Math.cos(a1)},${cy+R*Math.sin(a1)} A${R},${R} 0 ${lg},1 ${cx+R*Math.cos(a2)},${cy+R*Math.sin(a2)} L${cx+r*Math.cos(a2)},${cy+r*Math.sin(a2)} A${r},${r} 0 ${lg},0 ${cx+r*Math.cos(a1)},${cy+r*Math.sin(a1)}Z" fill="${it.c}"/>`;
+      off+=p;
+    });
+    return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${paths}<text x="${cx}" y="${cy-4}" text-anchor="middle" fill="#888" font-size="7" font-weight="700">${centerLine1}</text><text x="${cx}" y="${cy+9}" text-anchor="middle" fill="#1a1a2e" font-size="11" font-weight="900">${centerLine2}</text></svg>`;
+  }
+
+  function mkLegend(items){
+    return items.map(it=>`<span class="ps-leg"><span class="ps-leg-dot" style="background:${it.c}"></span>${it.l}: <b>${FS(it.v)}</b></span>`).join('');
+  }
+
+  // ── Investment gauge SVG (print-safe) ──
+  function mkGauge(pct){
+    const R2=40, cx2=55, cy2=55;
+    const arcP=(sa,ea,rad)=>{
+      const s2=sa*Math.PI/180,e2=ea*Math.PI/180;
+      const lg2=(ea-sa)>180?1:0;
+      return `M${cx2+rad*Math.cos(s2)},${cy2+rad*Math.sin(s2)} A${rad},${rad} 0 ${lg2},1 ${cx2+rad*Math.cos(e2)},${cy2+rad*Math.sin(e2)}`;
+    };
+    const bg=arcP(-225,45,R2);
+    const fg=arcP(-225,-225+Math.min(pct,1)*270,R2);
+    const col=pct>=0.9?'#2e7d32':pct>=0.5?'#e65100':'#c62828';
+    const lbl=pct>=0.9?'OPTIMAL':pct>=0.5?'GOOD':'LOW';
+    return `<svg width="110" height="100" viewBox="0 0 110 100">
+      <path d="${bg}" fill="none" stroke="#e0e0e0" stroke-width="10" stroke-linecap="round"/>
+      <path d="${fg}" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round"/>
+      <text x="${cx2}" y="${cy2-2}" text-anchor="middle" fill="#1a1a2e" font-size="16" font-weight="900">${(pct*100).toFixed(0)}%</text>
+      <text x="${cx2}" y="${cy2+10}" text-anchor="middle" fill="${col}" font-size="7" font-weight="700">${lbl}</text>
+      <text x="${cx2}" y="95" text-anchor="middle" fill="#999" font-size="6">${FS(totInv)} of ${FS(Math.round(inv20))}</text>
+    </svg>`;
+  }
+
+  // ── Slab bar SVG ──
+  function mkSlabBars(){
+    if(slabData.length===0) return '';
+    const barW=260, barH=12, gap=4;
+    const maxAmt=Math.max(...slabData.map(s=>s.amt),1);
+    const cols=['#006A4E','#0d47a1','#e65100','#bf360c','#6a1b9a','#f9a825','#ad1457'];
+    let y=0, out='';
+    slabData.forEach((s,i)=>{
+      const w=Math.max(2,(s.amt/totalIncome)*barW);
+      out+=`<text x="0" y="${y+barH-2}" fill="#666" font-size="7" font-weight="600">${(s.rate*100).toFixed(0)}%</text>`;
+      out+=`<rect x="22" y="${y}" width="${barW}" height="${barH}" rx="3" fill="#f0f0f0"/>`;
+      out+=`<rect x="22" y="${y}" width="${w}" height="${barH}" rx="3" fill="${cols[i%cols.length]}"/>`;
+      out+=`<text x="${22+barW+4}" y="${y+barH-2}" fill="#444" font-size="6.5" font-weight="700">${FS(s.tax)}</text>`;
+      y+=barH+gap;
+    });
+    return `<svg width="330" height="${y}" viewBox="0 0 330 ${y}">${out}</svg>`;
+  }
+
+  // ── Build income rows ──
+  let incRows='';
+  const PR=(l,v,cls='')=>{incRows+=`<tr class="${cls}"><td>${l}</td><td>${F(v)}</td></tr>`;};
+  const PS=()=>{incRows+=`<tr class="ps-tr-sep"><td colspan="2"></td></tr>`;};
+
+  PR(empType==='govt'?'Govt Taxable Pay':'Gross Salary',salRaw);
+  if(salEx>0){PR('Less: ⅓ Exemption (max '+F(c.salCap)+')',-salEx); PR('Taxable Salary',taxSal);}
+  if(rent)PR('Rental Income',rent); if(biz)PR('Business Income',biz);
+  if(agri)PR('Agricultural Income',agri); if(bank)PR('Bank Interest',bank);
+  if(cap)PR('Capital Gains',cap);
+  if(firm)PR('Firm/AOP Share',firm); if(other)PR('Other Income',other);
+  PR('<b>Regular Income (slab-taxed)</b>',regularIncome,'ps-tr-total');
+  if(sanP>0) PR('Cert. Sanch. Profit (not in slab)',sanP,'ps-tr-hl');
+
+  // ── Build tax calc rows ──
+  let taxRows='';
+  const TR=(l,v,cls='')=>{taxRows+=`<tr class="${cls}"><td>${l}</td><td>${F(v)}</td></tr>`;};
+  TR('Tax-Free Threshold',ex,'ps-tr-hl');
+  TR('Gross Tax on Regular Income',grossTax);
+  if(isLate) TR('Late filing — rebate disallowed',0,'ps-tr-hl');
+  if(rebate>0) TR('Less: Investment Rebate',-rebate);
+  TR('Tax After Rebate',Math.max(grossTax-rebate,0));
+  if(minApplied) TR('Minimum Tax Applied',minT,'ps-tr-hl');
+  TR('Regular Tax',taxAR);
+  if(sanP>0 || tdS>0){
+    taxRows+=`<tr class="ps-tr-sep"><td colspan="2"></td></tr>`;
+    TR('Cert. Sanch. Profit',sanP,'ps-tr-hl');
+    TR('Sanch. final tax = cert. TDS',sanFinalTax);
+    TR('Less: Sanch. TDS already paid',-tdS);
+    TR('<b>Net Sanch. effect</b>',sanFinalTax-tdS,'ps-tr-hl');
+  }
+  if(surchargeAmt>0) TR('Surcharge ('+Math.round(surchargeRate*100)+'%)',surchargeAmt);
+  TR('<b>Total Liability</b>',totalLiab,'ps-tr-total');
+  taxRows+=`<tr class="ps-tr-sep"><td colspan="2"></td></tr>`;
+  if(tdB>0) TR('TDS: Bank Interest',tdB); if(tdS>0) TR('TDS: Sanch. certificate',tdS); if(tdO>0) TR('TDS: Salary / Other',tdO);
+  TR('Total TDS Paid',totalTDS);
+  taxRows+=`<tr class="ps-tr-sep"><td colspan="2"></td></tr>`;
+  TR('<b>'+(net>=0?'NET TAX PAYABLE':'REFUND DUE')+'</b>',net,'ps-tr-total');
+
+  // ── Build investment rows ──
+  let invRows='';
+  const IR2=(l,v,cls='')=>{invRows+=`<tr class="${cls}"><td>${l}</td><td>${F(v)}</td></tr>`;};
+  if(ins) IR2('Life Insurance',ins); if(pf) IR2('DPS / PF',pf);
+  if(invS) IR2('Sanchayapatra',invS); if(stk) IR2('Stocks / Funds',stk);
+  if(govt) IR2('Govt Securities',govt); if(don) IR2('Donation',don);
+  if(invO) IR2('Other',invO);
+  IR2('<b>Total Investment</b>',totInv,'ps-tr-total');
+  invRows+=`<tr class="ps-tr-sep"><td colspan="2"></td></tr>`;
+  IR2('3% of Eligible Income',a3); IR2('15% of Investment',b15); IR2('Max Cap',c.maxReb);
+  IR2('<b>Rebate</b>',rebate,'ps-tr-total');
+
+  // ═══ ASSEMBLE FULL A4 HTML ═══
+  const html = `
+  <!-- HEADER -->
+  <div class="ps-header">
+    <div class="ps-brand">
+      <span class="ps-flag"></span>
+      <div>
+        <div class="ps-brand-kicker">A4 TAX SUMMARY REPORT</div>
+        <div class="ps-brand-text">BD Tax Estimator</div>
+        <div class="ps-brand-sub">Bangladesh Income Tax Calculator · FY 2024-25 &amp; 2025-26</div>
+        <div class="ps-brand-copy">COPYRIGHT @ UDOY PAUL</div>
+      </div>
+    </div>
+    <div class="ps-date">Generated: ${dateStr}<br>${c.label}</div>
+  </div>
+
+  <!-- HERO STRIP -->
+  <div class="ps-hero">
+    <div class="ps-hero-main">
+      <div class="ps-fy">${c.label}</div>
+      <div class="ps-big">${F(net)}</div>
+      <div class="ps-lbl">${net>=0?'Net Tax Payable':'Refund Due'} · Eff. Rate ${(effRate*100).toFixed(2)}%</div>
+    </div>
+    <div class="ps-hero-side">
+      <div class="ps-kpi"><div class="ps-kv c1">${FS(totalIncome)}</div><div class="ps-kl">Total Income</div></div>
+      <div class="ps-kpi"><div class="ps-kv c2">${FS(Math.max(0,totalIncome-ex))}</div><div class="ps-kl">Taxable</div></div>
+      <div class="ps-kpi"><div class="ps-kv c3">${FS(grossTax)}</div><div class="ps-kl">Gross Tax</div></div>
+      <div class="ps-kpi"><div class="ps-kv c4">${FS(rebate)}</div><div class="ps-kl">Rebate</div></div>
+    </div>
+  </div>
+
+  <!-- PROFILE STRIP -->
+  <div class="ps-profile">
+    <span><b>Gender:</b> ${gLabel}</span>
+    <span><b>Category:</b> <span class="ps-tag">${qLabel}</span></span>
+    <span><b>Location:</b> ${locLabel}</span>
+    <span><b>Min. Tax:</b> ${F(minT)}</span>
+    <span><b>Monthly Tax:</b> ${F(Math.max(0,net)/12)}</span>
+  </div>
+
+  <!-- CHARTS ROW -->
+  <div class="ps-charts">
+    <div class="ps-chart-box">
+      <div class="ps-chart-title">Income Composition</div>
+      ${mkDonut(incItems,120,60,60,50,32,'Total',FS(totalIncome))}
+      <div class="ps-chart-legend-h">${mkLegend(incItems)}</div>
+    </div>
+    <div class="ps-chart-box">
+      <div class="ps-chart-title">Tax Slab Utilization</div>
+      ${mkSlabBars()}
+    </div>
+    <div class="ps-chart-box">
+      <div class="ps-chart-title">Tax Allocation</div>
+      ${mkDonut(taxItems,120,60,60,50,32,'Liability',FS(totalLiab))}
+      <div class="ps-chart-legend-h">${mkLegend(taxItems)}</div>
+    </div>
+    <div class="ps-chart-box">
+      <div class="ps-chart-title">Investment Health</div>
+      ${mkGauge(invPct)}
+    </div>
+  </div>
+
+  <!-- TWO-COL TABLES -->
+  <div class="ps-cols">
+    <div class="ps-col-left">
+      <div class="ps-section">
+        <div class="ps-sec-head green">Income Breakdown</div>
+        <table class="ps-tbl">${incRows}</table>
+      </div>
+    </div>
+    <div class="ps-col-left">
+      <div class="ps-section">
+        <div class="ps-sec-head blue">Tax Computation</div>
+        <table class="ps-tbl">${taxRows}</table>
+      </div>
+    </div>
+  </div>
+
+  <!-- INVESTMENT + SLAB (side by side) -->
+  <div class="ps-cols">
+    <div class="ps-col-left">
+      <div class="ps-section">
+        <div class="ps-sec-head gold">Investment & Rebate</div>
+        <table class="ps-tbl">${invRows}</table>
+      </div>
+    </div>
+    <div class="ps-col-left">
+      <div class="ps-section">
+        <div class="ps-sec-head teal">Slab Breakdown</div>
+        <table class="ps-tbl">
+          <tr style="background:#f4f6f5"><td style="font-weight:700;font-size:7pt;color:#888">SLAB RANGE</td><td style="font-weight:700;font-size:7pt;color:#888;text-align:right">CALCULATION</td><td style="font-weight:700;font-size:7pt;color:#888;text-align:right">TAX</td></tr>
+          ${slabData.map(s=>`<tr><td>${s.rng}</td><td style="text-align:right">${F(s.amt)} × ${(s.rate*100).toFixed(0)}%</td><td style="text-align:right">${F(s.tax)}</td></tr>`).join('')}
+          <tr class="ps-tr-total"><td colspan="2"><b>Gross Tax</b></td><td>${F(grossTax)}</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="ps-footer">
+    ⚖️ Estimated salary-focused tax summary for planning support only. Based on আয়কর পরিপত্র ২০২৫-২০২৬ (Tax Circular 2025-2026) and current calculator assumptions. Verify certificate figures and consult a tax professional before filing. COPYRIGHT @ UDOY PAUL.
+  </div>`;
+
+  document.getElementById('printSummary').innerHTML = html;
+
+  // Short delay so DOM paints, then print
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{ window.print(); });
+  });
+}
+</script></body>
+</html>
